@@ -8,7 +8,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from rest_framework.response import Response
 from cerberus import Validator
-from letsbookr.utils.contants import FIELD_IS_NOT_ALLOWED
+from invent.utils.contants import FIELD_IS_NOT_ALLOWED
 from django.conf import settings
 
 epoch = datetime.utcfromtimestamp(0)
@@ -170,51 +170,8 @@ def stripEmptyObjFromArray(array):
             resultArray.append(value)
     return resultArray
 
-
-def serviceToGroupsMapper(data):
-    groups = []
-    groupIds = []
-    for service in data[:]:
-        if service['service'] is None:
-            continue
-        if not service['service']['group']['id'] in groupIds:
-            groupIds.append(service['service']['group']['id'])
-            groupObject = {
-                'name': service['service']['group']['name'],
-                'id': service['service']['group']['id'],
-                'services': []
-            }
-            if service['service']['isActive']==True or service['service']['isActive']== 1:
-                tempServiceObject = {
-                    'name': service['service']['name'],
-                    'id': service['service']['id'],
-                    'price': service['service']['price'],
-                    'bufferTime': service['service']['bufferTime'],
-                    'duration': service['service']['duration'],
-                    # 'specialPrice': service['service']['specialPrice'],
-                }
-                groupObject['services'].append(tempServiceObject)
-            groups.append(groupObject)
-        else:
-            for group in groups[:]:
-                if group['id'] is service['service']['group']['id']:
-                    if service['service']['isActive']==True or service['service']['isActive']== 1:
-
-                        tempServiceObject = {
-                            'name': service['service']['name'],
-                            'id': service['service']['id'],
-                            'price': service['service']['price'],
-                            'bufferTime': service['service']['bufferTime'],
-                            'duration': service['service']['duration'],
-                            # 'specialPrice': service['service']['specialPrice'],
-                        }
-                        group['services'].append(tempServiceObject)
-    return groups
-
-
 def returnDayOftheWeek(dateTime):
     return datetime.weekday(dateTime)
-
 
 def PythonWeekToMysqlWeek(dayNumber):
     if dayNumber == 0:  # Monday
@@ -278,29 +235,6 @@ def generateUniqueId(len):
 
     return val
 
-
-def validateTapPayment(merchantDetails, payload):
-
-    try:
-        MerchantID = str(merchantDetails.MerchantID)
-        APIKey = merchantDetails.APIKey
-        RefNumber = str(payload['ref'])
-        TxnResult = str(payload['result'])
-        OrderID = str(payload['trackid'])
-        strHash = 'x_account_id' + MerchantID + 'x_ref' + RefNumber + \
-            'x_result' + TxnResult + 'x_referenceid' + OrderID + ''
-        MyHashString = hmac.new(
-            bytearray(
-                APIKey, 'ASCII'), bytearray(
-                strHash, 'ASCII'), hashlib.sha256).hexdigest()
-        if MyHashString == payload['hash']:
-            return True
-        else:
-            return False
-    except Exception as ex:
-        return False
-
-
 def filter_unique(input):
     output = []
     for x in input:
@@ -308,37 +242,8 @@ def filter_unique(input):
             output.append(x)
     return output
 
-
-
-
 def iequal(a, b):
     try:
        return a.upper() == b.upper()
     except AttributeError:
        return a == b
-
-
-def generateServiceDurations(step):
-    if step <= 60:
-        step = step
-    else:
-        step = 60
-    hourNumber = 0
-    minutes = 0
-    string = ''
-    array = ['0min']
-
-    while (hourNumber < 12):
-        minutes += step
-        if (minutes == 60):
-            hourNumber += 1
-            minutes = 0
-        if (hourNumber):
-            string += str(hourNumber) + 'h '
-
-        if (minutes):
-            string += str(minutes) + 'min'
-
-        array.append(string.strip())
-        string = ''
-    return array

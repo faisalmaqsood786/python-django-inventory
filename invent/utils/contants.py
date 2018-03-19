@@ -2,68 +2,6 @@
 
 # DURATION_LIST = generateServiceDurations(10)
 # BUFFER_TIME = generateServiceDurations(5)
-APP_PAGES = {
-    'MY_BOOKING':1,
-    'HOME_PAGE':2,
-    'OFFERS':3,
-}
-INVENTORY = ['RETAIL','SALON_USE']
-
-VENDOR_PAGES = {
-    'INFO':1,
-    'STAFF':2,
-    'SERVICES':3,
-    'OFFER': 4,
-}
-
-NO_REPLY_BOOKR_EMAIL ="no-reply@letsbookr.com"
-DURATION_LIST = [
-    '0min',
-    '5min',
-    '10min',
-    '15min',
-    '20min',
-    '25min',
-    '30min',
-    '35min',
-    '40min',
-    '45min',
-    '50min',
-    '55min',
-    '1h',
-    '1h 5min',
-    '1h 10min',
-    '1h 15min',
-    '1h 20min',
-    '1h 25min',
-    '1h 30min',
-    '1h 35min',
-    '1h 40min',
-    '1h 45min',
-    '1h 50min',
-    '1h 55min',
-    '2h',
-    '2h 15min',
-    '2h 30min',
-    '2h 45min',
-    '3h',
-    '3h 15min',
-    '3h 30min',
-    '3h 45min',
-    '4h',
-    '4h 30min',
-    '5h',
-    '5h 30min',
-    '6h',
-    '6h 30min',
-    '7h',
-    '7h 30min',
-    '8h',
-    '9h',
-    '10h',
-    '11h',
-    '12h']
-
 ROLE_CHOICES = ['1', '2', '3', '4', '5']
 Gender_CHOICES = ['M', 'F', 'B']
 NOTIFICATION_CHANNELS= ['BOOKING_CREATED', 'BOOKING_CANCELED', 'PAYMENT_DUE','INFORMATION','PAYMENT_SUCCESSFUL']
