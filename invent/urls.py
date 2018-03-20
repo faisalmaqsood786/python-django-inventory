@@ -15,7 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+from django.views.static import serve
+from django.conf import settings
 
+
+from api.getCategories.category_api import CategoryData,CategoryDetail
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^apidoc/(?P<path>.*)$', serve,
+        {'document_root': settings.API_DOC_ROOT}),
+    url(r'v1/categories$', CategoryData.as_view()),
 ]
