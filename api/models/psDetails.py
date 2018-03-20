@@ -3,8 +3,8 @@ from api.models.purchaseInvoice import purchaseInvoive
 from api.models.items import items
 
 class psDetails(models.Model):
-    master_id = models.DateField(purchaseInvoive,blank=False)
-    item = models.ForeignKey(items, blank=False)
+    master_id = models.ForeignKey(purchaseInvoive,on_delete=models.CASCADE,blank=False)
+    item = models.ForeignKey(items ,on_delete=models.CASCADE, blank=False)
     totalAmount = models.DecimalField(
         blank=True, max_digits=8, decimal_places=2, null=True)
     qty = models.IntegerField(blank=True, null=True, default=0)

@@ -3,7 +3,7 @@ from api.models.vendors import vendors
 
 class purchaseInvoive(models.Model):
     date = models.DateField(max_length=30, blank=False)
-    vendor = models.ForeignKey(vendors, blank=False)
+    vendor = models.ForeignKey(vendors,on_delete=models.CASCADE, blank=False)
     totalAmount = models.DecimalField(
         blank=True, max_digits=8, decimal_places=2, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
