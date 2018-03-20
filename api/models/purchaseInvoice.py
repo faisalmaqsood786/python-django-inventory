@@ -13,4 +13,4 @@ class purchaseInvoive(models.Model):
         db_table = "purchase_inovice"
 
     def __str__(self):
-        return self.date
+        return self.vendor.name

@@ -15,4 +15,4 @@ class psDetails(models.Model):
         db_table = "ps_invoice_details"
 
     def __str__(self):
-        return self.master_id
+        return self.item.name

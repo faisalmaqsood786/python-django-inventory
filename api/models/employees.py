@@ -13,4 +13,4 @@ class employees(models.Model):
         db_table = "employees"
 
     def __str__(self):
-        return self.employeeNo
+        return self.name
