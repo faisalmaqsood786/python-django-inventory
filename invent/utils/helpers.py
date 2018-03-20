@@ -1,10 +1,7 @@
 import jwt
-import pytz
 import copy
 import random
-import hmac
 import hashlib
-from django.utils import timezone
 from datetime import datetime, timedelta
 from rest_framework.response import Response
 from cerberus import Validator
@@ -12,7 +9,6 @@ from invent.utils.contants import FIELD_IS_NOT_ALLOWED
 from django.conf import settings
 
 epoch = datetime.utcfromtimestamp(0)
-
 
 def unix_time_millis(dt):
     return (dt - epoch).total_seconds() * 1000.0
