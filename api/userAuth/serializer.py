@@ -1,7 +1,26 @@
 from rest_framework import serializers
-from api.models.categories import categories
+from api.models.users import users
+from api.models.vendors import vendors
 
-class CategorySerializer(serializers.ModelSerializer):
+class vendorAuthSerializer(serializers.ModelSerializer):
+
     class Meta:
-        model = categories
-        exclude = []
+        model = users
+        fields = ['type', 'username', 'id']
+
+class vendorAdminAuthSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = vendors
+        fields = [
+            'firstName',
+            'lastName',
+            'id',
+            'role',
+            'company',
+            'isFirstLogin',
+            'currentStep',
+            'country'
+        ]
+
+
