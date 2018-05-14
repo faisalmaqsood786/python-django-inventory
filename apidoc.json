@@ -2,7 +2,7 @@
   "name": "Invent VD API documentation",
   "version": "1.0.0",
   "description": "API Documentation.",
-  "url" : "https://localhost:8000/v1",
+  "url" : "http://localhost:8000/v1",
   "template": {
     "forceLanguage": "en"
   }

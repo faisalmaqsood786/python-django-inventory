@@ -7,6 +7,70 @@ from invent.utils.helpers import sendResponse
 from invent.exceptions.validationException import validationException
 
 class CategoryData(APIView):
+    """
+                @api {get} /categories Get Categories
+                @apiVersion 1.0.0
+                @apiName GetCategories
+                @apiGroup CategoriesNew
+
+                @apiSuccess {Integer} status  HTTP status code.
+                @apiSuccess {Boolean} isError  shows the status of errors.
+                @apiSuccess {String} message  API response message.
+                @apiSuccess {Object} data  Object of Category.
+
+                @apiSuccessExample Success-Response:
+                   HTTP/1.1 200 OK
+                  {
+                    "status": 200,
+                    "isError": false,
+                    "data": [
+                        {
+                            "id": 2,
+                            "name": "HP Laptops",
+                            "image": null,
+                            "created_at": "2018-03-20T07:12:20.678392Z",
+                            "updated_at": "2018-03-20T07:12:20.678640Z"
+                        },
+                        {
+                            "id": 3,
+                            "name": "Mouse",
+                            "image": null,
+                            "created_at": "2018-03-20T10:33:59.366142Z",
+                            "updated_at": "2018-03-20T10:33:59.366195Z"
+                        },
+                        {
+                            "id": 4,
+                            "name": "Mousee",
+                            "image": null,
+                            "created_at": "2018-03-22T06:06:02.805953Z",
+                            "updated_at": "2018-03-22T06:06:02.805991Z"
+                        }
+                    ],
+                    "arabicMessage": "تم بنجاح",
+                    "message": "Successful"
+                }
+
+                @apiError (500 Internal Server Error) InternalServerError Internal Server Error.
+                @apiError (404 Resource not found) ResourceNotFound Requested data/resource not found.
+
+                @apiErrorExample {json} Error-Response:
+
+
+                HTTP/1.1 500 Internal Server Error
+                {
+                     "status": 500,
+                     "isError": True,
+                     "message": "Internal Server Error",
+                }
+
+                 HTTP/1.1 404 Resource not found
+                {
+                     "status": 404,
+                     "isError": true,
+                     "message": "Requested data/resource not found",
+                }
+
+             """
 
     def get(self, request, format=None):
         try:
@@ -16,6 +80,46 @@ class CategoryData(APIView):
 
         except Exception as ex:
             return sendResponse(messages['INTERNAL_SERVER_ERROR'], str(ex))
+
+    """
+                     @api {post} /categories Create New Categore
+                     @apiVersion 1.0.0
+                     @apiName CreateCategory
+                     @apiGroup CategoriesNew
+
+                     @apiSuccess {Integer} status  HTTP status code.
+                     @apiSuccess {Boolean} isError  shows the status of errors.
+                     @apiSuccess {String} message  API response message.
+
+
+                    @apiParam (Body Parameter) {String} name Name of the category.
+                    @apiParamExample {json} API-Request:
+
+                    {
+                        "name": "HP Laptops",
+                    }
+
+                     @apiSuccessExample Success-Response:
+                        HTTP/1.1 200 OK
+                       {
+                        "status": 200,
+                        "isError": false,
+                        "message": "Successful",
+                        }
+
+                     @apiError (500 Internal Server Error) InternalServerError Internal Server Error.
+                     @apiError (404 Resource not found) ResourceNotFound Requested data/resource not found.
+
+                     @apiErrorExample {json} Error-Response:
+
+
+                     HTTP/1.1 500 Internal Server Error
+                     {
+                          "status": 500,
+                          "isError": True,
+                          "message": "Internal Server Error",
+                     }
+                  """
 
     def post(self, request, format=None):
         try:
@@ -39,9 +143,9 @@ class CategoryData(APIView):
 class CategoryDetail(APIView):
 
     """
-             @api {get} /categories:category_id Category Details (Disable)
+             @api {get} /categories:category_id Category Details
              @apiVersion 1.0.0
-             @apiName Specific Category Details
+             @apiName SpecificCategoryDetails
              @apiGroup Categories
              @apiParam (url Parameter) {Number} category_id Category Id  to get details of specific category.
 
@@ -59,16 +163,8 @@ class CategoryDetail(APIView):
                 "data": {
                         "id": 1,
                         "name": "Home Service",
-                        "image": "http://res.cloudinary.com/bookr/image/upload/v1502870268/Home_Service_xjfix9.png",
                         "created_at": "2017-08-15T05:56:55.232406Z",
                         "updated_at": "2017-08-15T05:56:55.232406Z",
-                        "gender": {
-                            "id": 3,
-                            "gender": "B",
-                            "created_at": "2017-08-15T05:55:56.599978Z",
-                            "updated_at": "2017-08-15T05:55:56.599978Z"
-                        }
-                    }
                 }
 
              @apiError (500 Internal Server Error) InternalServerError Internal Server Error.
@@ -95,7 +191,6 @@ class CategoryDetail(APIView):
 
     def get(self, request, category_id):
         try:
-
             categoryQuerySet = categories.objects.get(id=category_id)
             category = CategorySerializer(categoryQuerySet)
             return sendResponse(messages['SUCCESSFUL'], category.data)
@@ -105,9 +200,9 @@ class CategoryDetail(APIView):
             return sendResponse(messages['INTERNAL_SERVER_ERROR'], None)
 
     """
-                 @api {put} /categories:category_id Category Update (Disable)
+                 @api {put} /categories:category_id Category Update 
                  @apiVersion 1.0.0
-                 @apiName Specific Category Update
+                 @apiName SpecificCategoryUpdate
                  @apiGroup Categories
                  @apiParam (url Parameter) {Number} category_id Category Id  to update specific category.
 
@@ -121,8 +216,7 @@ class CategoryDetail(APIView):
                 @apiParamExample {json} API-Request:
 
                 {
-                    "name": "Home Service",
-                    "gender"  :1
+                    "name": "Mouse",
                 }
 
                  @apiSuccessExample Success-Response:
@@ -155,12 +249,12 @@ class CategoryDetail(APIView):
 
               """
 
-    def put(self, request, pk):
+    def put(self, request, category_id):
         try:
             validationResult = updateCategoryValidator(request.inputs)
             if not validationResult['isSuccess']:
                 raise validationException(validationResult['errors'])
-            categoryQuerySet = categories.objects.get(id=pk)
+            categoryQuerySet = categories.objects.get(id=category_id)
             serializer = CategorySerializer(
                 categoryQuerySet, data=request.inputs)
             if serializer.is_valid():
@@ -173,9 +267,52 @@ class CategoryDetail(APIView):
         except Exception as ex:
             return sendResponse(messages['INTERNAL_SERVER_ERROR'], None)
 
-    def delete(self, request, pk, format=None):
+    """
+                     @api {delete} /categories:category_id Category Delete
+                     @apiVersion 1.0.0
+                     @apiName DeleteCategory
+                     @apiGroup Categories
+                     @apiParam (url Parameter) {Number} category_id Category Id  to update specific category.
+
+                     @apiSuccess {Integer} status  HTTP status code.
+                     @apiSuccess {Boolean} isError  shows the status of errors.
+                     @apiSuccess {String} message  API response message.
+
+
+
+                     @apiSuccessExample Success-Response:
+                        HTTP/1.1 200 OK
+                       {
+                        "status": 200,
+                        "isError": false,
+                        "message": "Successful",
+                        }
+
+                     @apiError (500 Internal Server Error) InternalServerError Internal Server Error.
+                     @apiError (404 Resource not found) ResourceNotFound Requested data/resource not found.
+
+                     @apiErrorExample {json} Error-Response:
+
+
+                     HTTP/1.1 500 Internal Server Error
+                     {
+                          "status": 500,
+                          "isError": True,
+                          "message": "Internal Server Error",
+                     }
+
+                      HTTP/1.1 404 Resource not found
+                     {
+                          "status": 404,
+                          "isError": true,
+                          "message": "Requested data/resource not found",
+                     }
+
+                  """
+
+    def delete(self, request, category_id, format=None):
         try:
-            categoryQuerySet = categories.objects.get(id=pk)
+            categoryQuerySet = categories.objects.get(id=category_id)
             categoryQuerySet.delete()
             return sendResponse(messages['SUCCESSFUL'], None)
         except categories.DoesNotExist:
