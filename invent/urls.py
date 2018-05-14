@@ -21,10 +21,14 @@ from django.conf import settings
 
 
 from api.getCategories.category_api import CategoryData,CategoryDetail
+from api.products.products import Products,ProductDetail
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^apidoc/(?P<path>.*)$', serve,
         {'document_root': settings.API_DOC_ROOT}),
     url(r'v1/categories$', CategoryData.as_view()),
+    url(r'v1/products$', Products.as_view()),
     url(r'v1/categories/(?P<category_id>[0-9]+)$', CategoryDetail.as_view()),
+    url(r'v1/products/(?P<product_id>[0-9]+)$', ProductDetail.as_view()),
 ]
