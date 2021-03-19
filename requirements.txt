@@ -12,7 +12,7 @@ django-extensions==1.8.1
 django-filter==1.0.4
 django-mysql==2.1.0
 django-rest-swagger==2.1.2
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 h2==2.6.2
 hpack==3.0.0
 httplib2==0.10.3
